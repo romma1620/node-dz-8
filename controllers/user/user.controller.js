@@ -45,10 +45,29 @@ module.exports = {
         try {
             const user = req.body;
             const [avatar] = req.photos;
-
+            const [info] = req.docs
             user.password = await hashPassword(user.password);
 
             const {id} = await userService.createUser(user);
+
+            if (info) {
+
+                const docDir = `users/${id}/docs`;
+                const fileExtension = info.name.split('.').pop();
+                const docName = `${uuid}.${fileExtension}`;
+
+                await fs.mkdir(
+                    path.resolve(process.cwd(), 'public', docDir),
+                    {recursive: true}
+                );
+                await info.mv(
+                    path.resolve(process.cwd(), 'public', docDir, docName)
+                );
+                await userService.updateUser(
+                    id,
+                    {photo: `${docDir}/${docName}`}
+                )
+            }
 
             if (avatar) {
 

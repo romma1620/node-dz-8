@@ -4,6 +4,9 @@ const {fileConfigEnum, responceStatusCodesEnum} = require('../../constants');
 module.exports = (req, res, next) => {
     req.photos = [];
     req.docs = [];
+    console.log("----------------------------")
+    console.log(req.files)
+    console.log("----------------------------")
 
     if (!req.files) {
         next()
@@ -37,7 +40,7 @@ module.exports = (req, res, next) => {
                 );
             }
 
-            req.photos.push(files[i]);
+            req.docs.push(files[i]);
 
         } else {
             next(new ErrorHandler(`File ${name} invalid`, 400))

@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         photo: {
             type: DataTypes.STRING
         },
+        file: {
+            type: DataTypes.STRING
+        },
         age: {
             type: DataTypes.STRING,
             allowNull: false

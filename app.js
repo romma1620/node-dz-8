@@ -6,6 +6,7 @@ const path = require('path');
 
 dotenv.config();
 const {PORT} = require('./config')
+const {cronStart} = require('./cron')
 const db = require('./dataBase').getInstance()
 db.setModels();
 
@@ -17,6 +18,8 @@ app.use(express.urlencoded());
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(morgan('dev'));
+
+cronStart()
 
 const {authRouter ,userRouter} = require('./routes');
 
