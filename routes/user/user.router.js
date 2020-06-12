@@ -2,11 +2,18 @@ const {Router} = require('express');
 
 const userRouter = Router();
 
-const {userController} = require('../../controllers')
-const {checkIsUserExists, checkUpdateUser} = require('../../middlewares/user')
+const {userController} = require('../../controllers');
+const {fileMiddleware} = require('../../middlewares')
+const {checkIsUserExists, checkUpdateUser} = require('../../middlewares/user');
 
 
-userRouter.post('/', checkIsUserExists, userController.createUser);
+userRouter.post(
+    '/',
+    checkIsUserExists,
+    fileMiddleware.fileCheckMiddleware,
+    fileMiddleware.userPhotoCountMiddleware,
+    userController.createUser
+);
 
 userRouter.post('/auth', userController.loginUser)
 

@@ -1,7 +1,11 @@
-const {emailActionEnum} = require('../../constants')
-const {ErrorHandler} = require('../../errors')
-const {hashPassword, checkHashPassword} = require('../../helpers')
-const {emailService, userService} = require('../../service')
+const fs = require('fs-extra').promises;
+const uuid = require('uuid');
+const path = require('path');
+
+const {emailActionEnum} = require('../../constants');
+const {ErrorHandler} = require('../../errors');
+const {hashPassword, checkHashPassword} = require('../../helpers');
+const {emailService, userService} = require('../../service');
 
 module.exports = {
     getAllUsers: async (req, res) => {
@@ -40,13 +44,37 @@ module.exports = {
     createUser: async (req, res) => {
         try {
             const user = req.body;
+            const [avatar] = req.photos;
 
-            user.password = await hashPassword(user.password)
+            user.password = await hashPassword(user.password);
 
-            await userService.createUser(user);
-            await emailService.sendMail(user.email, emailActionEnum.USER_REGISTER, {userName: user.name});
-        }
-         catch (e) {
+            const {id} = await userService.createUser(user);
+
+            if (avatar) {
+
+                const photoDir = `users/${id}/photos`;
+                const fileExtension = avatar.name.split('.').pop();
+                const photoName = `${uuid}.${fileExtension}`;
+
+                await fs.mkdir(
+                    path.resolve(process.cwd(), 'public', photoDir),
+                    {recursive: true}
+                );
+                await avatar.mv(
+                    path.resolve(process.cwd(), 'public', photoDir, photoName)
+                );
+                await userService.updateUser(
+                    id,
+                    {photo: `${photoDir}/${photoName}`}
+                )
+            }
+
+            await emailService.sendMail(
+                user.email,
+                emailActionEnum.USER_REGISTER,
+                {userName: user.name}
+            );
+        } catch (e) {
             res.json(e)
         }
 

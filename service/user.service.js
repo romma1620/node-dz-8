@@ -36,15 +36,14 @@ module.exports = {
         })
     },
 
-    updateUser: (id, name) => {
+    updateUser: (id, userParams) => {
         const UserModel = db.getModel('User')
-        return UserModel.update({
-            name
-        }, {
-            where: {
-                id
-            }
-        })
+        return UserModel.update(
+            userParams, {
+                where: {
+                    id
+                }
+            })
 
     }
 }
