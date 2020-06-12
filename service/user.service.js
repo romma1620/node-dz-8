@@ -21,6 +21,14 @@ module.exports = {
         })
     },
 
+    getUserWithoutPhoto: (photo) => {
+        const UserModel = db.getModel('User')
+
+        return UserModel.findAll({
+            where: photo = null,
+        })
+    },
+
     createUser: (user) => {
         const UserModel = db.getModel('User')
         return UserModel.create(user)
