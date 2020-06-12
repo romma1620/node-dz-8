@@ -21,11 +21,11 @@ module.exports = {
         })
     },
 
-    getUserWithoutPhoto: (photo) => {
+    getUsersByParams: (params) => {
         const UserModel = db.getModel('User')
 
         return UserModel.findAll({
-            where: photo = null,
+            where: params
         })
     },
 

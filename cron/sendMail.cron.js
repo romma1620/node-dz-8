@@ -3,18 +3,16 @@ const {emailActionEnum} = require('../constants');
 
 module.exports = async () => {
     try {
-        const users = await userService.getUserWithoutPhoto();
-        console.log("==================================")
-        console.log(users)
-        console.log("==================================")
+        const users = await userService.getUsersByParams({photo: null});
 
         for (const user of users) {
-            const name = user.name;
-            const email = user.email;
+            console.log("============================")
+            console.log(user)
+            console.log("============================")
             await emailService.sendMail(
-                email,
-                emailActionEnum.USER_REGISTER,
-                {userName: name}
+                user.email,
+                emailActionEnum.USER_REMIND,
+                {userName: user.name}
             );
         }
 

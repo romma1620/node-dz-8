@@ -20,5 +20,12 @@ module.exports = {
         subject:'[HIRE!] Update user',
         templateFileName: 'userUpdate'
     },
+
+    [emailActionEnum.USER_REMIND]: {
+        subject:'[HIRE!] Remind user',
+        templateFileName: 'userWithoutPhoto'
+    }
+
+
 }
 
