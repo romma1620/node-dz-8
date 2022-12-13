@@ -5,7 +5,7 @@
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "email-templates": "^7.0.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": "^1.1.7-alpha.3",
     "fs-extra": "^9.0.1",
     "joi": "^14.3.1",
